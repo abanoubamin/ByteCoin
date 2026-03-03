@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, CoinManagerDelegate {
+class ViewController: UIViewController {
 
     @IBOutlet weak var currencyLabel: UILabel!
     @IBOutlet weak var bitcoinLabel: UILabel!
@@ -22,9 +22,10 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         currencyPicker.dataSource = self
         currencyPicker.delegate = self
     }
+}
 
-    // MARK: - UIPickerView DataSource & Delegate
-
+// MARK: - UIPickerView DataSource & Delegate
+extension ViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -41,9 +42,10 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         let selectedCurrency = coinManager.currencyArray[row]
         coinManager.getCoinPrice(for: selectedCurrency)
     }
+}
 
-    // MARK: - CoinManagerDelegate
-
+// MARK: - CoinManagerDelegate
+extension ViewController: CoinManagerDelegate {
     func didUpdatePrice(_ coinManager: CoinManager, price: Double, currency: String) {
         DispatchQueue.main.async {
             self.bitcoinLabel.text = String(format: "%.2f", price)
@@ -55,3 +57,4 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         print("Error fetching price: \(error.localizedDescription)")
     }
 }
+
