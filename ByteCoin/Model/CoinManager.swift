@@ -48,8 +48,9 @@ struct CoinManager {
     func parseJSON(_ data: Data, currency: String) -> Double? {
         let decoder = JSONDecoder()
         do {
-            let decodedData = try decoder.decode([String: [String: Double]].self, from: data)
-            if let price = decodedData["bitcoin"]?[currency.lowercased()] {
+            let decodedData = try decoder.decode(CoinData.self, from: data)
+            if let price = decodedData.bitcoin [ currency.lowercased() ] {
+                print("Parsed price: \(price) \(currency)")
                 return price
             }
         } catch {
